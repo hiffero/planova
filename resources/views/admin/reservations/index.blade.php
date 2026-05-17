@@ -19,7 +19,7 @@
             --black:        #0a0a0a;
             --surface:      #111111;
             --card:         #161616;
-            --card-hover:   #1c1c1c;
+            --card-hover:   #1c1c16;
             --white:        #ffffff;
             --gray:         #888888;
             --gray-light:   #aaaaaa;
@@ -609,6 +609,128 @@
         .pill.approved { background: rgba(109,191,95,0.12);  color: var(--green-accent); border: 1px solid rgba(109,191,95,0.3); }
         .pill.rejected { background: rgba(224,82,82,0.12);   color: var(--red);          border: 1px solid rgba(224,82,82,0.3); }
 
+        /* Menu tags */
+        .menu-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            max-width: 200px;
+        }
+
+        .menu-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            background: rgba(74,140,64,0.1);
+            border: 1px solid var(--border-green);
+            border-radius: 6px;
+            font-size: 0.72rem;
+            color: var(--green-l);
+            white-space: nowrap;
+        }
+
+        .menu-tag i { font-size: 0.65rem; }
+
+        .menu-tag.more {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--border);
+            color: var(--gray);
+            cursor: pointer;
+        }
+
+        /* Modal for full menu list */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-backdrop.show { display: flex; }
+
+        .modal-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            max-width: 480px;
+            width: 100%;
+            max-height: 80vh;
+            overflow: hidden;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-head {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-head h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--white);
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+        }
+
+        .modal-close:hover { color: var(--white); }
+
+        .modal-body {
+            padding: 16px 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .modal-menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .modal-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+        }
+
+        .modal-menu-name {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--white);
+            flex: 1;
+        }
+
+        .modal-menu-price {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--green-accent);
+        }
+
         /* Action buttons */
         .action-group { display: flex; gap: 6px; align-items: center; }
 
@@ -685,6 +807,59 @@
             font-size: 0.85rem;
             color: var(--gray);
             margin: 0;
+        }
+
+        /* Notes tooltip */
+        .notes-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.76rem;
+            color: var(--gray-light);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .notes-trigger:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--border-green);
+            color: var(--green-accent);
+        }
+
+        .notes-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-8px);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.8rem;
+            color: var(--gray-light);
+            max-width: 280px;
+            white-space: normal;
+            z-index: 50;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            display: none;
+        }
+
+        .notes-trigger:hover .notes-tooltip {
+            display: block;
+        }
+
+        .notes-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--surface);
         }
 
         /* ── PAGINATION ── */
@@ -800,6 +975,8 @@
                 text-transform: uppercase;
                 letter-spacing: 0.06em;
             }
+            .action-group { flex-wrap: wrap; }
+            .menu-tags { max-width: 100%; }
         }
 
         @keyframes fadeUp {
@@ -828,9 +1005,6 @@
             <span class="nav-section-label">Manajemen</span>
             <a href="{{ route('admin.cafes.index') }}" class="nav-item">
                 <i class="bi bi-building"></i> Kelola Cafe
-            </a>
-            <a href="{{ route('admin.menus.index') }}" class="nav-item">
-                <i class="bi bi-menu-button-wide"></i> Kelola Menu
             </a>
             <a href="{{ route('admin.reservations.index') }}" class="nav-item active">
                 <i class="bi bi-calendar-check"></i> Reservasi
@@ -959,6 +1133,7 @@
                                 <th>Tanggal</th>
                                 <th>Waktu</th>
                                 <th>Tamu</th>
+                                <th>Menu</th>
                                 <th>Bukti Bayar</th>
                                 <th>Status</th>
                                 <th style="width:140px;">Aksi</th>
@@ -966,6 +1141,12 @@
                         </thead>
                         <tbody>
                             @forelse($reservations as $r)
+                            @php
+                                // Parse selected menus
+                                $selectedMenuIds = json_decode($r->selected_menus ?? '[]', true) ?? [];
+                                $selectedMenus = $r->cafe?->menus?->whereIn('id', $selectedMenuIds) ?? collect();
+                                $hasNotes = !empty($r->notes);
+                            @endphp
                             <tr>
                                 <td data-label="User">
                                     <div class="user-info">
@@ -1004,6 +1185,34 @@
                                     </span>
                                 </td>
 
+                                <td data-label="Menu">
+                                    @if($selectedMenus->count() > 0)
+                                        <div class="menu-tags">
+                                            @foreach($selectedMenus->take(2) as $menu)
+                                            <span class="menu-tag">
+                                                <i class="bi bi-dot"></i>
+                                                {{ Str::limit($menu->name, 15) }}
+                                            </span>
+                                            @endforeach
+                                            @if($selectedMenus->count() > 2)
+                                            <span class="menu-tag more" onclick="openMenuModal({{ $selectedMenus->toJson() }})">
+                                                +{{ $selectedMenus->count() - 2 }} lainnya
+                                            </span>
+                                            @endif
+                                        </div>
+                                    @else
+                                        <span style="font-size:0.82rem;color:var(--gray);">—</span>
+                                    @endif
+                                    
+                                    @if($hasNotes)
+                                    <div style="position:relative;display:inline-block;margin-left:6px;">
+                                        <span class="notes-trigger">
+                                            <i class="bi bi-chat-square-text"></i> Catatan
+                                        </span>
+                                        <span class="notes-tooltip">{{ Str::limit($r->notes, 80) }}</span>
+                                    </div>
+                                    @endif
+                                </td>
                                 <td data-label="Bukti Bayar">
                                     @if($r->payment_proof)
                                         <a href="{{ asset('storage/'.$r->payment_proof) }}"
@@ -1031,27 +1240,26 @@
                                 <td data-label="Aksi">
                                     @if($r->status === 'pending')
                                         <div class="action-group">
-                                            <form method="POST"
-                                                  action="{{ route('admin.reservations.update', $r) }}"
-                                                  onsubmit="return confirm('Approve reservasi ini?')">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="status" value="approved">
-                                                <button type="submit" class="btn-action approve" title="Setujui">
-                                                    <i class="bi bi-check-lg"></i> Approve
-                                                </button>
-                                            </form>
-                                            <form method="POST"
-                                                  action="{{ route('admin.reservations.update', $r) }}"
-                                                  onsubmit="return confirm('Tolak reservasi ini?')">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="status" value="rejected">
-                                                <button type="submit" class="btn-action reject" title="Tolak">
-                                                    <i class="bi bi-x-lg"></i> Reject
-                                                </button>
-                                            </form>
-                                        </div>
+                                        {{-- Form Approve --}}
+                                        <form method="POST" action="{{ route('admin.reservations.update-status', $r) }}" onsubmit="return confirm('Approve reservasi ini?')">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="status" value="approved">
+                                            <button type="submit" class="btn-action approve" title="Setujui">
+                                                <i class="bi bi-check-lg"></i> Approve
+                                            </button>
+                                        </form>
+
+                                        {{-- Form Reject --}}
+                                        <form method="POST" action="{{ route('admin.reservations.update-status', $r) }}" onsubmit="return confirm('Tolak reservasi ini?')">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="status" value="rejected">
+                                            <button type="submit" class="btn-action reject" title="Tolak">
+                                                <i class="bi bi-x-lg"></i> Reject
+                                            </button>
+                                        </form>                                      
+                                     </div>
                                     @else
                                         <span class="done-label">
                                             <i class="bi bi-check2-circle"></i> Selesai
@@ -1061,7 +1269,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="8">
+                                <td colspan="9">
                                     <div class="empty-state">
                                         <i class="bi bi-inbox"></i>
                                         <h3>Belum Ada Reservasi</h3>
@@ -1074,19 +1282,21 @@
                     </table>
                 </div>
 
-                {{-- Pagination --}}
-                @if(isset($reservations) && $reservations->hasPages())
+                {{-- Pagination bar --}}
+                @if(isset($reservations) && method_exists($reservations, 'hasPages') && $reservations->hasPages())
                 <div class="pagination-bar">
                     <span class="pagination-info">
                         {{ $reservations->firstItem() }}–{{ $reservations->lastItem() }} dari {{ $reservations->total() }} data
                     </span>
                     <ul class="pagination">
+                        {{-- Previous --}}
                         @if($reservations->onFirstPage())
                             <li class="page-item disabled"><span class="page-link">‹</span></li>
                         @else
                             <li class="page-item"><a class="page-link" href="{{ $reservations->previousPageUrl() }}">‹</a></li>
                         @endif
 
+                        {{-- Page numbers --}}
                         @foreach($reservations->getUrlRange(1, $reservations->lastPage()) as $page => $url)
                             @if($page == $reservations->currentPage())
                                 <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
@@ -1095,6 +1305,7 @@
                             @endif
                         @endforeach
 
+                        {{-- Next --}}
                         @if($reservations->hasMorePages())
                             <li class="page-item"><a class="page-link" href="{{ $reservations->nextPageUrl() }}">›</a></li>
                         @else
@@ -1102,9 +1313,8 @@
                         @endif
                     </ul>
                 </div>
-                @endif
+                @endif            
             </div>
-
         </main>
 
         {{-- ── FOOTER ── --}}
@@ -1116,6 +1326,21 @@
     </div>{{-- end .main --}}
 
 </div>{{-- end .layout --}}
+
+{{-- Menu Modal --}}
+<div class="modal-backdrop" id="menuModal" onclick="closeMenuModal(event)">
+    <div class="modal-card">
+        <div class="modal-head">
+            <h3><i class="bi bi-utensils me-2"></i>Menu Dipilih</h3>
+            <button class="modal-close" onclick="closeMenuModal()"><i class="bi bi-x"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-menu-list" id="modalMenuList">
+                <!-- Menu items will be injected here -->
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     function handleLogout(e) {
@@ -1156,6 +1381,38 @@
     // Search on enter
     document.getElementById('searchInput')?.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') document.getElementById('searchForm').submit();
+    });
+
+    // Menu Modal
+    function openMenuModal(menus) {
+        const modal = document.getElementById('menuModal');
+        const list = document.getElementById('modalMenuList');
+        
+        if (!menus || menus.length === 0) {
+            list.innerHTML = '<p style="color:var(--gray);text-align:center;">Tidak ada menu.</p>';
+        } else {
+            list.innerHTML = menus.map(menu => `
+                <div class="modal-menu-item">
+                    <span class="modal-menu-name">${menu.name}</span>
+                    <span class="modal-menu-price">Rp ${new Intl.NumberFormat('id-ID').format(menu.price)}</span>
+                </div>
+            `).join('');
+        }
+        
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenuModal(e) {
+        if (!e || e.target.id === 'menuModal') {
+            document.getElementById('menuModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeMenuModal();
     });
 </script>
 </body>

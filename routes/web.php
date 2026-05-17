@@ -79,6 +79,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('cafes', CafeController::class)->parameters([
         'cafes' => 'cafe' // Optional: custom parameter name
     ]);
+
+    // Tambahkan route ini
+    Route::get('/cafes/{cafe}/menu', function(\App\Models\Cafe $cafe) {
+        $cafe->load('menus');
+        return view('reservations.show-menu', compact('cafe'));
+    })->name('cafes.menu');
     
     // ─── MENU MANAGEMENT ───────────────────────────────────────
     Route::resource('menus', MenuController::class)->parameters([
@@ -86,12 +92,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     ]);
     
     // ─── RESERVATION MANAGEMENT (Admin) ────────────────────────
+// ─── RESERVATION MANAGEMENT (Admin) ────────────────────────
     Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
-    Route::get('/reservations/{reservation}', [AdminReservationController::class, 'show'])->name('reservations.show');
-    Route::patch('/reservations/{reservation}/status', [AdminReservationController::class, 'updateStatus'])->name('reservations.update-status');
-    Route::patch('/reservations/{reservation}', [AdminReservationController::class, 'update'])->name('reservations.update');
-    Route::delete('/reservations/{reservation}', [AdminReservationController::class, 'destroy'])->name('reservations.destroy');
-    
+    Route::patch('/reservations/{reservation}/status', [AdminReservationController::class, 'updateStatus'])->name('reservations.update-status');    
     // ─── ADDITIONAL ADMIN ROUTES (Opsional) ────────────────────
     // Route::get('/reports', [AdminReportController::class, 'index'])->name('reports.index');
     // Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');

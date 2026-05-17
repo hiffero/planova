@@ -306,9 +306,15 @@
         .section-head {
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
             padding: 20px 24px;
             border-bottom: 1px solid var(--border);
+        }
+
+        .section-head-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .section-head-icon {
@@ -328,6 +334,26 @@
             font-weight: 600;
             color: var(--white);
             margin: 0;
+        }
+
+        .btn-add-menu {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(74,140,64,0.12);
+            border: 1px solid var(--border-green);
+            border-radius: 8px;
+            color: var(--green-accent);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-add-menu:hover {
+            background: rgba(74,140,64,0.2);
+            border-color: var(--green-bright);
         }
 
         .form-body {
@@ -561,6 +587,120 @@
 
         .file-remove:hover { background: rgba(224,82,82,0.15); }
 
+        /* ── MENU ITEMS ── */
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .menu-item {
+            background: var(--card-hover);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            position: relative;
+            animation: slideIn 0.3s ease both;
+        }
+
+        .menu-item.existing {
+            border-left: 3px solid var(--green-accent);
+        }
+
+        .menu-item.new {
+            border-left: 3px solid var(--amber);
+        }
+
+        .menu-item-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .menu-item-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .menu-item-title i { color: var(--green-accent); }
+
+        .menu-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: rgba(74,140,64,0.15);
+            color: var(--green-accent);
+            border: 1px solid var(--border-green);
+        }
+
+        .menu-badge.new {
+            background: rgba(245,166,35,0.15);
+            color: var(--amber);
+            border-color: rgba(245,166,35,0.3);
+        }
+
+        .btn-remove-menu {
+            background: rgba(224,82,82,0.1);
+            border: 1px solid rgba(224,82,82,0.25);
+            color: var(--red);
+            padding: 6px 12px;
+            border-radius: 7px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+
+        .btn-remove-menu:hover {
+            background: rgba(224,82,82,0.2);
+            border-color: var(--red);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .menu-grid .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .menu-current-image {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(74,140,64,0.06);
+            border: 1px solid var(--border-green);
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+
+        .menu-current-image img {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid var(--border-green);
+        }
+
+        .menu-current-image span {
+            font-size: 0.76rem;
+            color: var(--gray);
+        }
+
         /* ── FORM ACTIONS ── */
         .form-actions {
             display: flex;
@@ -645,17 +785,24 @@
             .page-body { padding: 20px; }
             .topbar { padding: 14px 20px; }
             .page-footer { padding: 14px 20px; flex-direction: column; gap: 8px; text-align: center; }
+            .menu-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 560px) {
             .current-image-box { flex-wrap: wrap; }
             .form-actions { flex-direction: column-reverse; }
             .btn-cancel { text-align: center; }
+            .menu-item-header { flex-direction: column; align-items: flex-start; gap: 10px; }
         }
 
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(10px); }
             to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to   { opacity: 1; transform: translateX(0); }
         }
 
         @keyframes spin {
@@ -756,99 +903,73 @@
                     @csrf
                     @method('PUT')
 
+                    {{-- Section 1: Cafe Info --}}
                     <div class="section-card">
-
-                        {{-- Card head --}}
                         <div class="section-head">
-                            <div class="section-head-icon"><i class="bi bi-pencil-square"></i></div>
-                            <h2>Informasi Cafe</h2>
+                            <div class="section-head-left">
+                                <div class="section-head-icon"><i class="bi bi-pencil-square"></i></div>
+                                <h2>Informasi Cafe</h2>
+                            </div>
                         </div>
 
-                        {{-- Fields --}}
                         <div class="form-body">
-
                             {{-- Nama --}}
                             <div class="form-group">
                                 <label class="form-label" for="name">
                                     <i class="bi bi-signpost-2"></i>
-                                    Nama Cafe
-                                    <span class="required" aria-hidden="true">*</span>
-                                    <span class="sr-only">Wajib diisi</span>
+                                    Nama Cafe <span class="required">*</span>
                                 </label>
                                 <input type="text" name="name" id="name"
                                        class="form-control @error('name') is-invalid @enderror"
                                        value="{{ old('name', $cafe->name) }}"
-                                       placeholder="Contoh: Kopi Senja Nusantara"
-                                       required>
-                                @error('name')
-                                    <span class="invalid-feedback"><i class="bi bi-exclamation-circle"></i> {{ $message }}</span>
-                                @enderror
+                                       placeholder="Contoh: Kopi Senja Nusantara" required>
+                                @error('name')<span class="invalid-feedback"><i class="bi bi-exclamation-circle"></i> {{ $message }}</span>@enderror
                             </div>
 
                             {{-- Alamat --}}
                             <div class="form-group">
                                 <label class="form-label" for="address">
                                     <i class="bi bi-geo-alt"></i>
-                                    Alamat Lengkap
-                                    <span class="required" aria-hidden="true">*</span>
+                                    Alamat Lengkap <span class="required">*</span>
                                 </label>
                                 <input type="text" name="address" id="address"
                                        class="form-control @error('address') is-invalid @enderror"
                                        value="{{ old('address', $cafe->address) }}"
-                                       placeholder="Jl. Contoh No. 123, Kecamatan, Kota"
-                                       required>
-                                @error('address')
-                                    <span class="invalid-feedback"><i class="bi bi-exclamation-circle"></i> {{ $message }}</span>
-                                @enderror
+                                       placeholder="Jl. Contoh No. 123, Kecamatan, Kota" required>
+                                @error('address')<span class="invalid-feedback"><i class="bi bi-exclamation-circle"></i> {{ $message }}</span>@enderror
                             </div>
 
                             {{-- Deskripsi --}}
                             <div class="form-group">
                                 <label class="form-label" for="description">
                                     <i class="bi bi-card-text"></i>
-                                    Deskripsi Cafe
-                                    <span class="required" aria-hidden="true">*</span>
+                                    Deskripsi Cafe <span class="required">*</span>
                                 </label>
                                 <textarea name="description" id="description" rows="4"
                                           class="form-control @error('description') is-invalid @enderror"
-                                          placeholder="Jelaskan suasana, konsep, menu unggulan, atau keunggulan cafe..."
-                                          required>{{ old('description', $cafe->description) }}</textarea>
-                                <span class="form-hint">
-                                    <i class="bi bi-info-circle"></i>
-                                    Minimal 20 karakter untuk deskripsi yang baik.
-                                </span>
-                                @error('description')
-                                    <span class="invalid-feedback"><i class="bi bi-exclamation-circle"></i> {{ $message }}</span>
-                                @enderror
+                                          placeholder="Jelaskan suasana, konsep, menu unggulan..." required>{{ old('description', $cafe->description) }}</textarea>
+                                @error('description')<span class="invalid-feedback"><i class="bi bi-exclamation-circle"></i> {{ $message }}</span>@enderror
                             </div>
 
-                            {{-- Current image --}}
+                            {{-- Current Image --}}
                             @if($cafe->image)
                             <div class="form-group">
-                                <label class="form-label">
-                                    <i class="bi bi-image"></i>
-                                    Foto Saat Ini
-                                </label>
+                                <label class="form-label"><i class="bi bi-image"></i> Foto Saat Ini</label>
                                 <div class="current-image-box">
                                     <img src="{{ asset('storage/' . $cafe->image) }}" alt="{{ $cafe->name }}">
                                     <div class="current-image-info">
                                         <p>{{ pathinfo($cafe->image, PATHINFO_BASENAME) }}</p>
                                         <small>{{ number_format(filesize(storage_path('app/public/' . $cafe->image)) / 1024, 1) }} KB</small>
                                     </div>
-                                    <span class="keep-badge">
-                                        <i class="bi bi-check-circle-fill"></i>
-                                        Akan dipertahankan
-                                    </span>
+                                    <span class="keep-badge"><i class="bi bi-check-circle-fill"></i> Akan dipertahankan</span>
                                 </div>
                             </div>
                             @endif
 
-                            {{-- Upload new photo --}}
+                            {{-- Upload New Photo --}}
                             <div class="form-group">
                                 <label class="form-label" for="image">
-                                    <i class="bi bi-upload"></i>
-                                    Ganti Foto Cafe
-                                    <span class="optional">(Opsional)</span>
+                                    <i class="bi bi-upload"></i> Ganti Foto Cafe <span class="optional">(Opsional)</span>
                                 </label>
                                 <div class="file-upload-zone" id="uploadZone">
                                     <div class="upload-icon"><i class="bi bi-cloud-upload"></i></div>
@@ -856,38 +977,135 @@
                                     <div class="upload-hint">JPG / PNG · Maks. 2 MB · Kosongkan jika tidak ingin mengganti</div>
                                     <input type="file" name="image" id="image"
                                            class="@error('image') is-invalid @enderror"
-                                           accept="image/jpeg,image/png,image/jpg"
-                                           aria-label="Upload foto cafe baru">
+                                           accept="image/jpeg,image/png,image/jpg">
                                 </div>
                                 <div class="file-preview" id="filePreview">
                                     <img id="previewImg" src="" alt="Preview">
                                     <span class="file-preview-name" id="fileName"></span>
-                                    <button type="button" class="file-remove" id="removeFile" title="Batal">
-                                        <i class="bi bi-x-circle-fill"></i>
-                                    </button>
+                                    <button type="button" class="file-remove" id="removeFile"><i class="bi bi-x-circle-fill"></i></button>
                                 </div>
-                                @error('image')
-                                    <span class="invalid-feedback"><i class="bi bi-exclamation-circle"></i> {{ $message }}</span>
-                                @enderror
+                                @error('image')<span class="invalid-feedback"><i class="bi bi-exclamation-circle"></i> {{ $message }}</span>@enderror
                             </div>
+                        </div>
+                    </div>
 
-                        </div>{{-- end .form-body --}}
-
-                        {{-- Actions --}}
-                        <div class="form-actions">
-                            <a href="{{ route('admin.cafes.index') }}" class="btn-cancel">
-                                <i class="bi bi-x-lg"></i> Batal
-                            </a>
-                            <button type="submit" class="btn-submit" id="submitBtn">
-                                <i class="bi bi-check-lg" id="btnIcon"></i>
-                                <span id="btnText">Simpan Perubahan</span>
+                    {{-- Section 2: Menu Management --}}
+                    <div class="section-card">
+                        <div class="section-head">
+                            <div class="section-head-left">
+                                <div class="section-head-icon"><i class="bi bi-utensils"></i></div>
+                                <h2>Kelola Menu</h2>
+                            </div>
+                            <button type="button" class="btn-add-menu" onclick="addNewMenuItem()">
+                                <i class="bi bi-plus-lg"></i> Tambah Menu Baru
                             </button>
                         </div>
 
-                    </div>{{-- end .section-card --}}
+                        <div class="form-body">
+                            <div id="menusContainer" class="menu-items">
+                                
+                                {{-- Existing Menus --}}
+                                @foreach($cafe->menus as $index => $menu)
+                                <div class="menu-item existing" id="menu-existing-{{ $menu->id }}">
+                                    <div class="menu-item-header">
+                                        <div class="menu-item-title">
+                                            <i class="bi bi-cup-hot"></i>
+                                            <span>{{ $menu->name }}</span>
+                                            <span class="menu-badge">Existing</span>
+                                        </div>
+                                        <button type="button" class="btn-remove-menu" onclick="removeMenuItem('existing-{{ $menu->id }}', true)">
+                                            <i class="bi bi-trash"></i> Hapus
+                                        </button>
+                                    </div>
+
+                                    <input type="hidden" name="menus[existing][{{ $menu->id }}][id]" value="{{ $menu->id }}">
+                                    
+                                    <div class="menu-grid">
+                                        <div class="form-group">
+                                            <label class="form-label">Nama Menu <span class="required">*</span></label>
+                                            <input type="text" name="menus[existing][{{ $menu->id }}][name]" 
+                                                   class="form-control" value="{{ old("menus.existing.$menu->id.name", $menu->name) }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Kategori <span class="required">*</span></label>
+                                            <select name="menus[existing][{{ $menu->id }}][category]" class="form-control" required>
+                                                <option value="">Pilih</option>
+                                                <option value="makanan" {{ old("menus.existing.$menu->id.category", $menu->category) == 'makanan' ? 'selected' : '' }}>Makanan</option>
+                                                <option value="minuman" {{ old("menus.existing.$menu->id.category", $menu->category) == 'minuman' ? 'selected' : '' }}>Minuman</option>
+                                                <option value="snack" {{ old("menus.existing.$menu->id.category", $menu->category) == 'snack' ? 'selected' : '' }}>Snack</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Harga (Rp) <span class="required">*</span></label>
+                                            <input type="number" name="menus[existing][{{ $menu->id }}][price]" 
+                                                   class="form-control" value="{{ old("menus.existing.$menu->id.price", $menu->price) }}" min="0" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group full">
+                                        <label class="form-label">Deskripsi</label>
+                                        <textarea name="menus[existing][{{ $menu->id }}][description]" class="form-control" rows="2">{{ old("menus.existing.$menu->id.description", $menu->description) }}</textarea>
+                                    </div>
+
+                                    @if($menu->image)
+                                    <div class="form-group">
+                                        <label class="form-label">Foto Saat Ini</label>
+                                        <div class="menu-current-image">
+                                            <img src="{{ asset('storage/' . $menu->image) }}" alt="{{ $menu->name }}">
+                                            <span>{{ pathinfo($menu->image, PATHINFO_BASENAME) }}</span>
+                                        </div>
+                                    </div>
+                                    @endif
+
+                                    <div class="form-group">
+                                        <label class="form-label">Ganti Foto <span class="optional">(Opsional)</span></label>
+                                        <div class="file-upload-zone" id="menuUpload-{{ $menu->id }}">
+                                            <div class="upload-icon"><i class="bi bi-cloud-upload"></i></div>
+                                            <div class="upload-label">Upload foto baru</div>
+                                            <input type="file" name="menus[existing][{{ $menu->id }}][image]" 
+                                                   accept="image/*" onchange="previewMenuFile(this, 'menuPreview-{{ $menu->id }}')">
+                                        </div>
+                                        <div class="file-preview" id="menuPreview-{{ $menu->id }}">
+                                            <img src="" alt="Preview">
+                                            <span class="file-preview-name"></span>
+                                            <button type="button" class="file-remove" onclick="removeFile('menus[existing][{{ $menu->id }}][image]', 'menuPreview-{{ $menu->id }}')"><i class="bi bi-x-circle-fill"></i></button>
+                                        </div>
+                                    </div>
+
+                                    {{-- Hidden input untuk delete --}}
+                                    <input type="hidden" name="menus[existing][{{ $menu->id }}][_delete]" id="delete-existing-{{ $menu->id }}" value="0">
+                                </div>
+                                @endforeach
+
+                                {{-- New Menus Container --}}
+                                <div id="newMenusContainer"></div>
+
+                            </div>
+
+                            {{-- Empty State --}}
+                            @if($cafe->menus->count() === 0)
+                            <div id="emptyMenuMessage" style="text-align:center;padding:24px;color:var(--gray);">
+                                <i class="bi bi-utensils" style="font-size:2rem;margin-bottom:8px;display:block;color:var(--gray);"></i>
+                                <small>Belum ada menu. Klik "Tambah Menu Baru" untuk menambah.</small>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    {{-- Form Actions --}}
+                    <div class="form-actions">
+                        <a href="{{ route('admin.cafes.index') }}" class="btn-cancel">
+                            <i class="bi bi-x-lg"></i> Batal
+                        </a>
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            <i class="bi bi-check-lg" id="btnIcon"></i>
+                            <span id="btnText">Simpan Perubahan</span>
+                        </button>
+                    </div>
+
                 </form>
 
-            </div>{{-- end .form-wrapper --}}
+            </div>
         </main>
 
         {{-- ── FOOTER ── --}}
@@ -896,11 +1114,12 @@
             <a href="{{ route('home') }}">Kembali ke Website &rarr;</a>
         </footer>
 
-    </div>{{-- end .main --}}
+    </div>
 
-</div>{{-- end .layout --}}
+</div>
 
 <script>
+    // ===== Logout =====
     function handleLogout(e) {
         if (e) e.preventDefault();
         if (confirm('Yakin ingin logout dari panel admin?')) {
@@ -908,6 +1127,7 @@
         }
     }
 
+    // ===== Sidebar Toggle =====
     function toggleSidebar() {
         document.getElementById('sidebar').classList.toggle('open');
     }
@@ -915,14 +1135,12 @@
     document.addEventListener('click', function(e) {
         const sidebar = document.getElementById('sidebar');
         const toggle = document.querySelector('.mobile-toggle');
-        if (sidebar.classList.contains('open') &&
-            !sidebar.contains(e.target) &&
-            toggle && !toggle.contains(e.target)) {
+        if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && toggle && !toggle.contains(e.target)) {
             sidebar.classList.remove('open');
         }
     });
 
-    // Clock
+    // ===== Clock =====
     function updateClock() {
         const el = document.getElementById('clock');
         if (el) el.textContent = new Date().toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
@@ -930,41 +1148,174 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // File upload
-    const fileInput   = document.getElementById('image');
-    const uploadZone  = document.getElementById('uploadZone');
-    const filePreview = document.getElementById('filePreview');
-    const previewImg  = document.getElementById('previewImg');
-    const fileName    = document.getElementById('fileName');
-    const removeFile  = document.getElementById('removeFile');
-
-    function resetUpload() {
-        fileInput.value = '';
-        filePreview.classList.remove('show');
-        previewImg.src = '';
-        uploadZone.classList.remove('dragover');
+    // ===== File Upload Helpers =====
+    function resetUpload(inputId, previewId) {
+        document.getElementById(inputId).value = '';
+        document.getElementById(previewId).classList.remove('show');
+        document.getElementById(previewId).querySelector('img').src = '';
     }
 
-    fileInput?.addEventListener('change', function() {
-        const file = this.files[0];
+    function previewFile(input, previewId) {
+        const file = input.files[0];
         if (!file) return;
         if (!['image/jpeg','image/png','image/jpg'].includes(file.type)) {
             alert('Format tidak didukung. Gunakan JPG atau PNG.');
-            return resetUpload();
+            return resetUpload(input.id, previewId);
         }
         if (file.size > 2 * 1024 * 1024) {
             alert('Ukuran file maksimal 2MB.');
-            return resetUpload();
+            return resetUpload(input.id, previewId);
         }
-        fileName.textContent = file.name;
+        const preview = document.getElementById(previewId);
+        const img = preview.querySelector('img');
+        const nameEl = preview.querySelector('.file-preview-name');
+        nameEl.textContent = file.name;
         const reader = new FileReader();
-        reader.onload = e => { previewImg.src = e.target.result; };
+        reader.onload = e => { img.src = e.target.result; };
         reader.readAsDataURL(file);
-        filePreview.classList.add('show');
+        preview.classList.add('show');
+    }
+
+    function removeFile(inputName, previewId) {
+        const input = document.querySelector(`[name="${inputName}"]`);
+        if (input) input.value = '';
+        document.getElementById(previewId).classList.remove('show');
+    }
+
+    // ===== Menu Management =====
+    let newMenuIndex = 0;
+
+    function addNewMenuItem() {
+        document.getElementById('emptyMenuMessage')?.style.setProperty('display', 'none');
+        
+        const container = document.getElementById('newMenusContainer');
+        const menuHtml = `
+            <div class="menu-item new" id="menu-new-${newMenuIndex}">
+                <div class="menu-item-header">
+                    <div class="menu-item-title">
+                        <i class="bi bi-plus-circle"></i>
+                        <span>Menu Baru #${newMenuIndex + 1}</span>
+                        <span class="menu-badge new">New</span>
+                    </div>
+                    <button type="button" class="btn-remove-menu" onclick="removeNewMenuItem(${newMenuIndex})">
+                        <i class="bi bi-trash"></i> Hapus
+                    </button>
+                </div>
+
+                <input type="hidden" name="menus[new][${newMenuIndex}][_new]" value="1">
+                
+                <div class="menu-grid">
+                    <div class="form-group">
+                        <label class="form-label">Nama Menu <span class="required">*</span></label>
+                        <input type="text" name="menus[new][${newMenuIndex}][name]" class="form-control" placeholder="Contoh: Espresso" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kategori <span class="required">*</span></label>
+                        <select name="menus[new][${newMenuIndex}][category]" class="form-control" required>
+                            <option value="">Pilih</option>
+                            <option value="makanan">Makanan</option>
+                            <option value="minuman">Minuman</option>
+                            <option value="snack">Snack</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Harga (Rp) <span class="required">*</span></label>
+                        <input type="number" name="menus[new][${newMenuIndex}][price]" class="form-control" placeholder="15000" min="0" required>
+                    </div>
+                </div>
+                
+                <div class="form-group full">
+                    <label class="form-label">Deskripsi</label>
+                    <textarea name="menus[new][${newMenuIndex}][description]" class="form-control" rows="2" placeholder="Deskripsi menu..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Foto Menu <span class="optional">(Opsional)</span></label>
+                    <div class="file-upload-zone">
+                        <div class="upload-icon"><i class="bi bi-cloud-upload"></i></div>
+                        <div class="upload-label">Upload foto</div>
+                        <input type="file" name="menus[new][${newMenuIndex}][image]" accept="image/*" onchange="previewFile(this, 'menuPreview-new-${newMenuIndex}')">
+                    </div>
+                    <div class="file-preview" id="menuPreview-new-${newMenuIndex}">
+                        <img src="" alt="Preview">
+                        <span class="file-preview-name"></span>
+                        <button type="button" class="file-remove" onclick="removeFile('menus[new][${newMenuIndex}][image]', 'menuPreview-new-${newMenuIndex}')"><i class="bi bi-x-circle-fill"></i></button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        container.insertAdjacentHTML('beforeend', menuHtml);
+        newMenuIndex++;
+    }
+
+    function removeMenuItem(menuId, isExisting) {
+        if (!confirm('Yakin ingin menghapus menu ini?')) return;
+        
+        if (isExisting) {
+            // Mark for deletion instead of removing from DOM
+            document.getElementById(`delete-${menuId}`).value = '1';
+            const item = document.getElementById(`menu-${menuId}`);
+            item.style.opacity = '0.5';
+            item.style.pointerEvents = 'none';
+            item.querySelector('.menu-item-title span:last-child').textContent = 'Akan Dihapus';
+            item.querySelector('.menu-item-title span:last-child').style.background = 'rgba(224,82,82,0.2)';
+            item.querySelector('.menu-item-title span:last-child').style.color = '#ff7b7b';
+            item.querySelector('.btn-remove-menu').style.display = 'none';
+        } else {
+            document.getElementById(`menu-${menuId}`)?.remove();
+            if (!document.querySelectorAll('.menu-item:not([style*="opacity: 0.5"])').length) {
+                document.getElementById('emptyMenuMessage')?.style.setProperty('display', 'block');
+            }
+        }
+    }
+
+    function removeNewMenuItem(index) {
+        document.getElementById(`menu-new-${index}`)?.remove();
+        if (!document.getElementById('newMenusContainer').children.length && 
+            !document.querySelectorAll('.menu-item.existing:not([style*="opacity: 0.5"])').length) {
+            document.getElementById('emptyMenuMessage')?.style.setProperty('display', 'block');
+        }
+    }
+
+    // ===== Form Submit =====
+    const form = document.getElementById('cafeForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const btnIcon = document.getElementById('btnIcon');
+
+    form?.addEventListener('submit', function(e) {
+        let valid = true;
+        this.querySelectorAll('[required]').forEach(f => {
+            if (!f.value.trim()) {
+                valid = false;
+                f.classList.add('is-invalid');
+            } else {
+                f.classList.remove('is-invalid');
+            }
+        });
+        if (!valid) { e.preventDefault(); return; }
+        
+        submitBtn.disabled = true;
+        if (btnText) btnText.textContent = 'Menyimpan...';
+        if (btnIcon) { 
+            btnIcon.className = 'bi bi-hourglass-split'; 
+            btnIcon.style.animation = 'spin 1s linear infinite'; 
+        }
     });
 
-    removeFile?.addEventListener('click', resetUpload);
+    // ===== Real-time Validation =====
+    document.querySelectorAll('.form-control[required]').forEach(input => {
+        input.addEventListener('blur', function() {
+            this.classList.toggle('is-invalid', !this.value.trim());
+        });
+        input.addEventListener('input', function() {
+            if (this.value.trim()) this.classList.remove('is-invalid');
+        });
+    });
 
+    // ===== Drag & Drop for Cafe Image =====
+    const uploadZone = document.getElementById('uploadZone');
     ['dragenter','dragover'].forEach(ev => {
         uploadZone?.addEventListener(ev, e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
     });
@@ -973,39 +1324,18 @@
     });
     uploadZone?.addEventListener('drop', e => {
         const files = e.dataTransfer.files;
-        if (files?.length) { fileInput.files = files; fileInput.dispatchEvent(new Event('change')); }
+        if (files?.length) { 
+            document.getElementById('image').files = files; 
+            document.getElementById('image').dispatchEvent(new Event('change')); 
+        }
     });
 
-    // Form submit
-    const form      = document.getElementById('cafeForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const btnText   = document.getElementById('btnText');
-    const btnIcon   = document.getElementById('btnIcon');
-
-    form?.addEventListener('submit', function(e) {
-        let valid = true;
-        this.querySelectorAll('[required]').forEach(f => {
-            if (!f.value.trim()) {
-                valid = false;
-                f.classList.add('is-invalid');
-                if (valid === false && document.activeElement !== f) f.focus();
-            } else {
-                f.classList.remove('is-invalid');
-            }
-        });
-        if (!valid) { e.preventDefault(); return; }
-        submitBtn.disabled = true;
-        if (btnText) btnText.textContent = 'Menyimpan...';
-        if (btnIcon) { btnIcon.className = 'bi bi-hourglass-split'; btnIcon.style.animation = 'spin 1s linear infinite'; }
-    });
-
-    document.querySelectorAll('.form-control[required]').forEach(input => {
-        input.addEventListener('blur', function() {
-            this.classList.toggle('is-invalid', !this.value.trim());
-        });
-        input.addEventListener('input', function() {
-            if (this.value.trim()) this.classList.remove('is-invalid');
-        });
+    // ===== Init =====
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto-hide empty message if there are menus
+        if (document.querySelectorAll('.menu-item').length > 0) {
+            document.getElementById('emptyMenuMessage')?.style.setProperty('display', 'none');
+        }
     });
 </script>
 </body>

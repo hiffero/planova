@@ -560,9 +560,6 @@
             <a href="{{ route('admin.cafes.index') }}" class="nav-item">
                 <i class="fas fa-store"></i> Kelola Café
             </a>
-            <a href="{{ route('admin.menus.index') }}" class="nav-item">
-                <i class="fas fa-utensils"></i> Kelola Menu
-            </a>
             <a href="{{ route('admin.reservations.index') }}" class="nav-item">
                 <i class="fas fa-calendar-check"></i> Reservasi
                 @php $pending = \App\Models\Reservation::where('status','pending')->count(); @endphp
@@ -696,13 +693,6 @@
                                 <div>
                                     <span class="at-strong">Kelola Café</span>
                                     <span class="at-small">Tambah, edit, hapus</span>
-                                </div>
-                            </a>
-                            <a href="{{ route('admin.menus.index') }}" class="action-tile">
-                                <div class="at-icon"><i class="fas fa-utensils"></i></div>
-                                <div>
-                                    <span class="at-strong">Kelola Menu</span>
-                                    <span class="at-small">Makanan & minuman</span>
                                 </div>
                             </a>
                             <a href="{{ route('admin.reservations.index') }}" class="action-tile">

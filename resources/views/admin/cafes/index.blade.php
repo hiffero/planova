@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* ═══ TOKENS ═══ */
         :root {
             --black:    #0a0a0a;
             --surface:  #111111;
@@ -56,7 +55,6 @@
             pointer-events:none; z-index:0; opacity:0.5;
         }
 
-        /* Ambient */
         .ambient { position:fixed; border-radius:50%; filter:blur(130px); pointer-events:none; z-index:0; }
         .amb-1 { width:420px;height:420px; background:radial-gradient(circle,rgba(92,184,92,0.08) 0%,transparent 70%); top:-100px;right:-80px; animation:drift 20s ease-in-out infinite; }
         .amb-2 { width:300px;height:300px; background:radial-gradient(circle,rgba(61,139,61,0.06) 0%,transparent 70%); bottom:-60px;left:80px; animation:drift 26s ease-in-out infinite reverse; }
@@ -82,16 +80,15 @@
             background:linear-gradient(180deg,transparent,rgba(92,184,92,0.18) 40%,rgba(92,184,92,0.08) 70%,transparent);
         }
 
-        .sidebar-logo { padding:26px 22px 20px; border-bottom:1px solid var(--border); }
-
+        .sidebar-logo { padding:22px 20px 18px; border-bottom:1px solid var(--border); }
         .logo-link { display:flex;align-items:center;gap:10px; text-decoration:none; }
-        .logo-img { width:36px;height:36px; border-radius:10px; overflow:hidden; border:1.5px solid rgba(92,184,92,0.25); flex-shrink:0; }
+        .logo-img { width:34px;height:34px; border-radius:10px; overflow:hidden; border:1.5px solid rgba(92,184,92,0.25); flex-shrink:0; }
         .logo-img img { width:100%;height:100%;object-fit:cover; }
-        .logo-wordmark { font-family:'Syne',sans-serif; font-size:18px;font-weight:800;letter-spacing:1.5px;color:var(--white); }
+        .logo-wordmark { font-family:'Syne',sans-serif; font-size:17px;font-weight:800;letter-spacing:1.5px;color:var(--white); }
         .logo-wordmark span { color:var(--green); }
-        .logo-sub { font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:5px; }
+        .logo-sub { font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px; }
 
-        .sidebar-nav { flex:1; padding:18px 10px; display:flex;flex-direction:column;gap:2px; overflow-y:auto; }
+        .sidebar-nav { flex:1; padding:14px 10px; display:flex;flex-direction:column;gap:2px; overflow-y:auto; }
 
         .nav-section { font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);padding:10px 12px 5px;margin-top:6px; }
 
@@ -100,7 +97,7 @@
             padding:10px 13px; border-radius:10px;
             text-decoration:none; color:var(--muted);
             font-size:13.5px;font-weight:500;
-            transition:all 0.2s ease; border:1px solid transparent;
+            transition:all 0.2s; border:1px solid transparent;
         }
         .nav-item i { font-size:15px;width:18px;text-align:center;flex-shrink:0; }
         .nav-item:hover { background:rgba(92,184,92,0.08);color:var(--white); }
@@ -122,7 +119,7 @@
             background:rgba(224,82,82,0.06);
             color:var(--red-l);font-size:13.5px;font-weight:500;
             cursor:pointer;width:100%;text-align:left;
-            font-family:'DM Sans',sans-serif;transition:all 0.2s ease;
+            font-family:'DM Sans',sans-serif;transition:all 0.2s;
         }
         .btn-logout-side:hover { background:rgba(224,82,82,0.14);border-color:rgba(224,82,82,0.4); }
 
@@ -132,77 +129,79 @@
         /* ════ TOPBAR ════ */
         .topbar {
             display:flex;align-items:center;justify-content:space-between;
-            padding:16px 32px;
+            padding:14px 28px;
             background:rgba(10,10,10,0.88);
             backdrop-filter:blur(20px);
             border-bottom:1px solid var(--border);
             position:sticky;top:0;z-index:100;
-            gap:16px;
+            gap:12px;
         }
-        .topbar-left { display:flex;align-items:center;gap:14px; }
+        .topbar-left { display:flex;align-items:center;gap:12px; min-width:0; }
 
         .mobile-toggle {
-            display:none; background:none;
+            display:none;
+            background:none;
             border:1px solid var(--border); color:var(--white);
             font-size:16px; cursor:pointer; padding:7px 9px;
-            border-radius:9px; transition:all 0.2s;
+            border-radius:9px; transition:all 0.2s; flex-shrink:0;
         }
         .mobile-toggle:hover { border-color:var(--border-g);color:var(--green); }
 
-        .topbar-title h1 { font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--white);margin:0; }
-        .topbar-title p  { font-size:12px;color:var(--muted);margin:1px 0 0; }
+        .topbar-title h1 { font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--white);margin:0; white-space:nowrap; }
+        .topbar-title p  { font-size:12px;color:var(--muted);margin:1px 0 0; white-space:nowrap; }
 
-        .topbar-right { display:flex;align-items:center;gap:10px; }
+        .topbar-right { display:flex;align-items:center;gap:8px; flex-shrink:0; }
 
         .clock-chip {
             display:flex;align-items:center;gap:7px;
             padding:7px 13px;
             background:rgba(255,255,255,0.04);border:1px solid var(--border);
             border-radius:9px;font-size:12.5px;color:var(--muted);
+            white-space:nowrap;
         }
         .clock-chip i { color:var(--green);font-size:13px; }
 
         .btn-add {
             display:flex;align-items:center;gap:7px;
-            padding:9px 18px;
+            padding:9px 16px;
             background:var(--green);color:var(--black);
             border:none;border-radius:9px;
             font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
             text-decoration:none;cursor:pointer;
-            transition:all 0.25s; letter-spacing:0.3px;
+            transition:all 0.25s; white-space:nowrap;
             position:relative;overflow:hidden;
         }
         .btn-add::before { content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.15),transparent);opacity:0;transition:opacity 0.3s; }
         .btn-add:hover { background:#6dcf6d;transform:translateY(-1px);box-shadow:0 8px 24px rgba(92,184,92,0.3);color:var(--black); }
         .btn-add:hover::before { opacity:1; }
-        .btn-add i { font-size:14px; }
+        .btn-add i { font-size:13px; }
+
+        /* hide "Tambah" text on small screens, keep icon */
+        .btn-add .btn-add-text { display:inline; }
 
         .admin-avatar {
-            width:34px;height:34px;border-radius:9px;
+            width:32px;height:32px;border-radius:9px;
             background:var(--green-xd);border:1.5px solid var(--border-g);
             display:flex;align-items:center;justify-content:center;
-            font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--green-l);
+            font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--green-l);
+            flex-shrink:0;
         }
 
         /* ════ PAGE BODY ════ */
-        .page-body { flex:1;padding:32px;display:flex;flex-direction:column;gap:22px; }
+        .page-body { flex:1;padding:28px;display:flex;flex-direction:column;gap:20px; }
 
-        /* Headline */
         .page-headline { display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap; }
         .headline-eyebrow { font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px;display:flex;align-items:center;gap:8px; }
         .headline-eyebrow::before { content:'';width:16px;height:2px;background:var(--green);border-radius:2px; }
-        .headline-title { font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--white);letter-spacing:-0.3px;line-height:1.1;margin:0; }
+        .headline-title { font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--white);letter-spacing:-0.3px;line-height:1.1;margin:0; }
         .headline-title span { color:var(--green); }
 
-        /* Stats pills */
         .stats-row { display:flex;gap:10px;flex-wrap:wrap; }
-
         .stat-pill {
             display:inline-flex;align-items:center;gap:8px;
             padding:9px 16px;
             background:var(--card);border:1px solid var(--border);
             border-radius:40px;font-size:13px;font-weight:500;color:var(--muted);
-            transition:all 0.2s;
         }
         .stat-pill i { color:var(--green);font-size:13px; }
         .stat-pill strong { color:var(--white); }
@@ -210,7 +209,7 @@
         /* ════ TOOLBAR ════ */
         .toolbar { display:flex;gap:10px;flex-wrap:wrap;align-items:center; }
 
-        .search-shell { flex:1;min-width:220px;position:relative; }
+        .search-shell { flex:1;min-width:200px;position:relative; }
         .search-shell .s-icon { position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;pointer-events:none;z-index:1; }
 
         .search-input {
@@ -248,11 +247,11 @@
 
         .btn-tool {
             display:inline-flex;align-items:center;gap:7px;
-            padding:11px 16px;
+            padding:11px 14px;
             background:var(--card);border:1.5px solid var(--border);
             border-radius:var(--radius);color:var(--muted);
             font-size:13.5px;font-family:'DM Sans',sans-serif;font-weight:500;
-            cursor:pointer;transition:all 0.2s;
+            cursor:pointer;transition:all 0.2s; white-space:nowrap;
         }
         .btn-tool:hover { border-color:var(--border-g);color:var(--green-l);background:rgba(92,184,92,0.06); }
 
@@ -281,7 +280,7 @@
 
         .tc-head {
             display:flex;align-items:center;justify-content:space-between;
-            padding:18px 24px 14px;border-bottom:1px solid var(--border);
+            padding:16px 22px 14px;border-bottom:1px solid var(--border);
         }
         .tc-head-left { display:flex;align-items:center;gap:10px; }
         .tc-icon {
@@ -293,14 +292,14 @@
         .tc-title { font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--white); }
         .tc-count { font-size:12px;color:var(--muted);font-weight:400;margin-left:4px; }
 
-        /* Table */
-        .table-wrap { overflow-x:auto; }
+        /* ── Desktop Table ── */
+        .table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
 
-        .tbl { width:100%;border-collapse:collapse;font-size:13.5px; }
+        .tbl { width:100%;border-collapse:collapse;font-size:13.5px; min-width:480px; }
 
         .tbl thead tr { border-bottom:1px solid var(--border); }
         .tbl thead th {
-            padding:13px 20px;text-align:left;
+            padding:12px 18px;text-align:left;
             font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
             color:var(--muted2);white-space:nowrap;
         }
@@ -309,38 +308,30 @@
         .tbl tbody tr:last-child { border-bottom:none; }
         .tbl tbody tr:hover { background:rgba(92,184,92,0.04); }
 
-        .tbl td { padding:15px 20px;vertical-align:middle;color:var(--muted); }
+        .tbl td { padding:14px 18px;vertical-align:middle;color:var(--muted); }
 
         /* Thumbnail */
         .cafe-thumb {
-            width:54px;height:54px;border-radius:12px;
+            width:52px;height:52px;border-radius:12px;
             object-fit:cover;border:1px solid var(--border);
             cursor:pointer;transition:all 0.2s;display:block;
         }
         .cafe-thumb:hover { border-color:var(--border-g);transform:scale(1.07);box-shadow:0 6px 20px rgba(0,0,0,0.4); }
 
         .thumb-placeholder {
-            width:54px;height:54px;border-radius:12px;
+            width:52px;height:52px;border-radius:12px;
             background:rgba(255,255,255,0.03);
             border:1.5px dashed rgba(255,255,255,0.08);
             display:flex;align-items:center;justify-content:center;
             color:var(--muted2);font-size:18px;
         }
 
-        /* Cafe info cell */
         .cafe-name-txt { font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px; }
-        .cafe-addr {
-            display:flex;align-items:center;gap:5px;
-            font-size:12px;color:var(--muted);margin-bottom:3px;
-        }
-        .cafe-addr i { color:var(--green);font-size:11px; }
-        .cafe-meta-txt {
-            display:flex;align-items:center;gap:5px;
-            font-size:11.5px;color:var(--muted2);
-        }
+        .cafe-addr { display:flex;align-items:flex-start;gap:5px;font-size:12px;color:var(--muted);margin-bottom:3px; }
+        .cafe-addr i { color:var(--green);font-size:11px;margin-top:2px;flex-shrink:0; }
+        .cafe-meta-txt { display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--muted2); }
         .cafe-meta-txt i { font-size:11px; }
 
-        /* Action buttons */
         .action-group { display:flex;gap:6px;align-items:center; }
 
         .ab {
@@ -354,13 +345,60 @@
         .ab.del  { border-color:rgba(224,82,82,0.25); color:var(--red-l); background:rgba(224,82,82,0.07); }
         .ab.del:hover  { background:rgba(224,82,82,0.18); border-color:var(--red); transform:translateY(-2px);box-shadow:0 6px 16px rgba(224,82,82,0.2); }
 
+        /* ── Mobile Card List (hidden on desktop) ── */
+        .mobile-card-list { display:none; padding:12px; flex-direction:column; gap:10px; }
+
+        .mobile-cafe-card {
+            background:var(--card2);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:14px;
+            display:flex;
+            gap:12px;
+            align-items:flex-start;
+            transition:border-color 0.2s;
+        }
+        .mobile-cafe-card:hover { border-color:var(--border-g); }
+
+        .mobile-cafe-thumb {
+            width:56px;height:56px;border-radius:10px;
+            object-fit:cover;border:1px solid var(--border);flex-shrink:0;
+            cursor:pointer;
+        }
+        .mobile-cafe-thumb-placeholder {
+            width:56px;height:56px;border-radius:10px;
+            background:rgba(255,255,255,0.03);
+            border:1.5px dashed rgba(255,255,255,0.08);
+            display:flex;align-items:center;justify-content:center;
+            color:var(--muted2);font-size:20px;flex-shrink:0;
+        }
+
+        .mobile-cafe-info { flex:1;min-width:0; }
+        .mobile-cafe-name { font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+        .mobile-cafe-addr { font-size:12px;color:var(--muted);margin-bottom:6px;display:flex;align-items:flex-start;gap:4px; }
+        .mobile-cafe-addr i { color:var(--green);font-size:11px;margin-top:2px;flex-shrink:0; }
+        .mobile-cafe-date { font-size:11.5px;color:var(--muted2); }
+
+        .mobile-cafe-actions { display:flex;gap:6px;margin-top:10px; }
+        .mobile-ab {
+            flex:1;height:34px;border-radius:8px;
+            display:inline-flex;align-items:center;justify-content:center;gap:6px;
+            font-size:12.5px;font-weight:500;font-family:'DM Sans',sans-serif;
+            cursor:pointer;text-decoration:none;
+            transition:all 0.2s; border:1px solid;
+        }
+        .mobile-ab.edit { border-color:rgba(59,143,212,0.3);color:var(--blue-l);background:rgba(59,143,212,0.07); }
+        .mobile-ab.edit:hover { background:rgba(59,143,212,0.18); }
+        .mobile-ab.del { border-color:rgba(224,82,82,0.3);color:var(--red-l);background:rgba(224,82,82,0.07); }
+        .mobile-ab.del:hover { background:rgba(224,82,82,0.18); }
+
         /* Empty state */
-        .empty-state { text-align:center;padding:60px 24px; }
+        .empty-state { text-align:center;padding:52px 24px; }
         .empty-ring {
-            width:80px;height:80px;border-radius:50%;
+            width:76px;height:76px;border-radius:50%;
             background:var(--card2);border:1px solid var(--border);
             display:flex;align-items:center;justify-content:center;
-            margin:0 auto 20px;font-size:32px;color:var(--muted2);
+            margin:0 auto 20px;font-size:30px;color:var(--muted2);
             box-shadow:0 0 0 8px rgba(255,255,255,0.015);
         }
         .empty-state h3 { font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px; }
@@ -369,12 +407,11 @@
         /* Pagination */
         .pagination-bar {
             display:flex;align-items:center;justify-content:space-between;
-            padding:16px 24px;border-top:1px solid var(--border);
-            flex-wrap:wrap;gap:12px;
+            padding:14px 20px;border-top:1px solid var(--border);
+            flex-wrap:wrap;gap:10px;
         }
         .pag-info { font-size:12px;color:var(--muted2); }
-
-        .pag { display:flex;gap:4px;list-style:none; }
+        .pag { display:flex;gap:4px;list-style:none;flex-wrap:wrap; }
 
         .pag-link {
             display:flex;align-items:center;justify-content:center;
@@ -393,10 +430,10 @@
             position:fixed;inset:0;
             background:rgba(0,0,0,0.94);backdrop-filter:blur(16px);
             display:none;align-items:center;justify-content:center;
-            z-index:1000;
+            z-index:1000;padding:20px;
         }
         .img-modal.show { display:flex; }
-        .modal-box { position:relative;max-width:88vw;max-height:88vh; }
+        .modal-box { position:relative;max-width:min(88vw,600px); }
         .modal-img { max-width:100%;max-height:80vh;border-radius:16px;border:1px solid var(--border);display:block; }
         .modal-cap { text-align:center;font-size:13px;color:var(--muted);margin-top:12px; }
         .modal-x {
@@ -410,7 +447,7 @@
         .modal-x:hover { background:rgba(224,82,82,0.35); }
 
         /* ════ TOAST ════ */
-        .toast-wrap { position:fixed;bottom:24px;right:24px;z-index:2000;display:flex;flex-direction:column;gap:8px; }
+        .toast-wrap { position:fixed;bottom:20px;right:20px;z-index:2000;display:flex;flex-direction:column;gap:8px;max-width:calc(100vw - 40px); }
         .toast {
             display:flex;align-items:center;gap:10px;
             padding:12px 18px;background:var(--card2);
@@ -427,49 +464,69 @@
 
         /* ════ FOOTER ════ */
         .page-footer {
-            border-top:1px solid var(--border);padding:16px 32px;
+            border-top:1px solid var(--border);padding:14px 28px;
             display:flex;align-items:center;justify-content:space-between;
-            font-size:12px;color:var(--muted2);
+            font-size:12px;color:var(--muted2);gap:10px;flex-wrap:wrap;
         }
         .footer-brand { font-family:'Syne',sans-serif;font-weight:800;letter-spacing:1px;color:var(--white); }
         .page-footer a { color:var(--green);text-decoration:none;transition:color 0.2s; }
         .page-footer a:hover { color:var(--green-l); }
 
-        /* ════ ANIMATIONS ════ */
         @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
 
+        /* Sidebar overlay */
+        .sidebar-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:299;backdrop-filter:blur(4px); }
+        .sidebar-overlay.show { display:block; }
+
         /* ════ RESPONSIVE ════ */
+
+        /* Medium — collapsed sidebar */
         @media (max-width:900px) {
             .sidebar { transform:translateX(-100%); }
             .sidebar.open { transform:translateX(0); }
             .main { margin-left:0; }
             .mobile-toggle { display:flex; }
             .page-body { padding:20px; }
-            .topbar { padding:14px 20px; }
-            .page-footer { padding:14px 20px;flex-direction:column;gap:8px;text-align:center; }
-            .page-headline { flex-direction:column;align-items:flex-start; }
-        }
-        @media (max-width:640px) {
-            .toolbar { flex-direction:column; }
-            .search-shell,.filter-select,.btn-tool { width:100%; }
-            .tbl thead { display:none; }
-            .tbl tbody tr {
-                display:block;padding:14px 16px;
-                border-radius:var(--radius);margin:8px 16px;
-                border:1px solid var(--border);background:rgba(255,255,255,0.015);
-            }
-            .tbl tbody tr:last-child { border-bottom:1px solid var(--border); }
-            .tbl td {
-                display:flex;align-items:center;justify-content:space-between;
-                padding:6px 0;border:none;
-            }
-            .tbl td::before { content:attr(data-label);font-size:10.5px;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:1px; }
-            .clock-chip span { display:none; }
+            .topbar { padding:12px 20px; }
+            .page-footer { padding:12px 20px;flex-direction:column;gap:6px;text-align:center; }
+            .page-headline { flex-direction:column;align-items:flex-start;gap:12px; }
+            .clock-chip { display:none; }
         }
 
-        /* Sidebar overlay */
-        .sidebar-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:299;backdrop-filter:blur(4px); }
-        .sidebar-overlay.show { display:block; }
+        /* Small — switch table to card list */
+        @media (max-width:640px) {
+            .page-body { padding:14px; gap:14px; }
+            .topbar { padding:10px 14px; gap:8px; }
+
+            /* Hide "Tambah Café" label, keep icon */
+            .btn-add .btn-add-text { display:none; }
+            .btn-add { padding:9px 12px; }
+
+            /* Topbar title collapse */
+            .topbar-title p { display:none; }
+            .topbar-title h1 { font-size:15px; }
+
+            /* Toolbar full-width */
+            .toolbar { flex-direction:column; }
+            .search-shell { min-width:0;width:100%; }
+            .filter-select { width:100%; }
+            .btn-tool { width:100%;justify-content:center; }
+
+            /* Hide desktop table, show mobile cards */
+            .table-wrap { display:none; }
+            .mobile-card-list { display:flex; }
+
+            /* Pagination compact */
+            .pagination-bar { justify-content:center; }
+            .pag-info { width:100%;text-align:center; }
+        }
+
+        /* Very small */
+        @media (max-width:380px) {
+            .page-headline .headline-title { font-size:20px; }
+            .stats-row { width:100%; }
+            .stat-pill { width:100%;justify-content:center; }
+        }
     </style>
 </head>
 <body>
@@ -503,9 +560,6 @@
             <span class="nav-section">Manajemen</span>
             <a href="{{ route('admin.cafes.index') }}" class="nav-item active">
                 <i class="fas fa-store"></i> Kelola Café
-            </a>
-            <a href="{{ route('admin.menus.index') }}" class="nav-item">
-                <i class="fas fa-utensils"></i> Kelola Menu
             </a>
             <a href="{{ route('admin.reservations.index') }}" class="nav-item">
                 <i class="fas fa-calendar-check"></i> Reservasi
@@ -547,7 +601,8 @@
                     <span id="clock">--:--</span>
                 </div>
                 <a href="{{ route('admin.cafes.create') }}" class="btn-add">
-                    <i class="fas fa-plus"></i> Tambah Café
+                    <i class="fas fa-plus"></i>
+                    <span class="btn-add-text">Tambah Café</span>
                 </a>
                 <div class="admin-avatar">A</div>
             </div>
@@ -613,19 +668,20 @@
                     </div>
                 </div>
 
+                {{-- ── Desktop Table ── --}}
                 <div class="table-wrap">
                     <table class="tbl">
                         <thead>
                             <tr>
                                 <th style="width:78px;">Foto</th>
                                 <th>Informasi Café</th>
-                                <th style="width:110px;">Aksi</th>
+                                <th style="width:100px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($cafes as $cafe)
                             <tr>
-                                <td data-label="Foto">
+                                <td>
                                     @if($cafe->image)
                                         <img src="{{ asset('storage/'.$cafe->image) }}"
                                              alt="{{ $cafe->name }}"
@@ -635,7 +691,7 @@
                                         <div class="thumb-placeholder"><i class="fas fa-image"></i></div>
                                     @endif
                                 </td>
-                                <td data-label="Informasi">
+                                <td>
                                     <div class="cafe-name-txt">{{ $cafe->name }}</div>
                                     <div class="cafe-addr">
                                         <i class="fas fa-location-dot"></i>
@@ -646,7 +702,7 @@
                                         {{ $cafe->created_at->format('d M Y') }}
                                     </div>
                                 </td>
-                                <td data-label="Aksi">
+                                <td>
                                     <div class="action-group">
                                         <a href="{{ route('admin.cafes.edit', $cafe) }}" class="ab edit" title="Edit">
                                             <i class="fas fa-pen"></i>
@@ -669,7 +725,8 @@
                                         <h3>Belum Ada Café</h3>
                                         <p>Mulai dengan menambahkan café partner pertama.</p>
                                         <a href="{{ route('admin.cafes.create') }}" class="btn-add" style="display:inline-flex;margin:0 auto;">
-                                            <i class="fas fa-plus"></i> Tambah Café
+                                            <i class="fas fa-plus"></i>
+                                            <span class="btn-add-text">Tambah Café</span>
                                         </a>
                                     </div>
                                 </td>
@@ -677,6 +734,56 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+
+                {{-- ── Mobile Card List ── --}}
+                <div class="mobile-card-list">
+                    @forelse($cafes as $cafe)
+                    <div class="mobile-cafe-card">
+                        @if($cafe->image)
+                            <img src="{{ asset('storage/'.$cafe->image) }}"
+                                 alt="{{ $cafe->name }}"
+                                 class="mobile-cafe-thumb"
+                                 onclick="openModal(this.src,'{{ addslashes($cafe->name) }}')">
+                        @else
+                            <div class="mobile-cafe-thumb-placeholder"><i class="fas fa-image"></i></div>
+                        @endif
+                        <div class="mobile-cafe-info" style="flex:1;min-width:0;">
+                            <div class="mobile-cafe-name">{{ $cafe->name }}</div>
+                            <div class="mobile-cafe-addr">
+                                <i class="fas fa-location-dot"></i>
+                                <span>{{ Str::limit($cafe->address, 50) }}</span>
+                            </div>
+                            <div class="mobile-cafe-date">
+                                <i class="fas fa-calendar" style="font-size:10px;color:var(--muted2);"></i>
+                                {{ $cafe->created_at->format('d M Y') }}
+                            </div>
+                            <div class="mobile-cafe-actions">
+                                <a href="{{ route('admin.cafes.edit', $cafe) }}" class="mobile-ab edit">
+                                    <i class="fas fa-pen"></i> Edit
+                                </a>
+                                <form action="{{ route('admin.cafes.destroy', $cafe) }}" method="POST"
+                                      onsubmit="return confirm('Yakin hapus {{ addslashes($cafe->name) }}?')"
+                                      style="flex:1;display:flex;">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="mobile-ab del" style="flex:1;">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="empty-state" style="padding:40px 16px;">
+                        <div class="empty-ring"><i class="fas fa-store-slash"></i></div>
+                        <h3>Belum Ada Café</h3>
+                        <p>Mulai dengan menambahkan café partner pertama.</p>
+                        <a href="{{ route('admin.cafes.create') }}" class="btn-add" style="display:inline-flex;margin:0 auto;">
+                            <i class="fas fa-plus"></i>
+                            <span class="btn-add-text">Tambah Café</span>
+                        </a>
+                    </div>
+                    @endforelse
                 </div>
 
                 {{-- Pagination --}}
@@ -745,6 +852,9 @@
         document.getElementById('sidebar').classList.remove('open');
         document.getElementById('overlay').classList.remove('show');
     }
+
+    // Close sidebar on ESC
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
 
     // Clock
     function updateClock() {
